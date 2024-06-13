@@ -27,95 +27,95 @@
 /* VARIABLES */
 @layer base {
   :root {
-    --background: 48, 8%, 88%;;
-    --foreground: 20 14.3% 4.1%;
+    --background: hsl(48, 8%, 88%);
+    --foreground: hsl(20, 14.3%, 4.1%);
 
     /* CLASES AGREGADAS: */
-		--container: 0 0 100%;
-		--left-panel: 203, 32%, 10%;
+    --container: hsl(0, 0%, 100%);
+    --left-panel: hsl(203, 32%, 10%);
 
-		--gray-primary: 216, 20%, 95%;
-		--gray-secondary: 216, 20%, 95%;
+    --gray-primary: hsl(216, 20%, 95%);
+    --gray-secondary: hsl(216, 20%, 95%);
 
-		--left-panel: 100, 100%, 100%;
-		--chat-hover: 180, 5%, 96%;
+    --left-panel: hsl(100, 100%, 100%);
+    --chat-hover: hsl(180, 5%, 96%);
 
-		--green-primary: 167, 100%, 33%;
-		--green-chat: 111, 91%, 91%;
-		/* CLASES AGREGADAS */
+    --green-primary: hsl(167, 100%, 33%);
+    --green-chat: hsl(111, 91%, 91%);
+    /* CLASES AGREGADAS */
 
-    --card: 0 0% 100%;
-    --card-foreground: 20 14.3% 4.1%;
+    --card: hsl(0, 0%, 100%);
+    --card-foreground: hsl(20, 14.3%, 4.1%);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 14.3% 4.1%;
+    --popover: hsl(0, 0%, 100%);
+    --popover-foreground: hsl(20, 14.3%, 4.1%);
 
-    --primary: 24 9.8% 10%;
-    --primary-foreground: 60 9.1% 97.8%;
+    --primary: hsl(24, 9.8%, 10%);
+    --primary-foreground: hsl(60, 9.1%, 97.8%);
 
-    --secondary: 60 4.8% 95.9%;
-    --secondary-foreground: 24 9.8% 10%;
+    --secondary: hsl(60, 4.8%, 95.9%);
+    --secondary-foreground: hsl(24, 9.8%, 10%);
 
-    --muted: 60 4.8% 95.9%;
-    --muted-foreground: 25 5.3% 44.7%;
+    --muted: hsl(60, 4.8%, 95.9%);
+    --muted-foreground: hsl(25, 5.3%, 44.7%);
 
-    --accent: 60 4.8% 95.9%;
-    --accent-foreground: 24 9.8% 10%;
+    --accent: hsl(60, 4.8%, 95.9%);
+    --accent-foreground: hsl(24, 9.8%, 10%);
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 60 9.1% 97.8%;
+    --destructive: hsl(0, 84.2%, 60.2%);
+    --destructive-foreground: hsl(60, 9.1%, 97.8%);
 
-    --border: 20 5.9% 90%;
-    --input: 20 5.9% 90%;
-    --ring: 20 14.3% 4.1%;
+    --border: hsl(20, 5.9%, 90%);
+    --input: hsl(20, 5.9%, 90%);
+    --ring: hsl(20, 14.3%, 4.1%);
 
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 202, 31%, 7%;
-    --foreground: 60 9.1% 97.8%;
+    --background: hsl(202, 31%, 7%);
+    --foreground: hsl(60, 9.1%, 97.8%);
 
     /* CLASES AGREGADAS: */
-		--container: 202, 31%, 7%;
+    --container: hsl(202, 31%, 7%);
 
-		--gray-primary: 202, 23%, 16%;
-		--gray-secondary: 202, 22%, 17%;
+    --gray-primary: hsl(202, 23%, 16%);
+    --gray-secondary: hsl(202, 22%, 17%);
 
-		--left-panel: 203, 32%, 10%;
-		--chat-hover: 202, 23%, 16%;
+    --left-panel: hsl(203, 32%, 10%);
+    --chat-hover: hsl(202, 23%, 16%);
 
-		--green-primary: 167, 100%, 33%;
-		--green-secondary: 165, 100%, 39%;
-		--green-chat: 169, 100%, 18%;
+    --green-primary: hsl(167, 100%, 33%);
+    --green-secondary: hsl(165, 100%, 39%);
+    --green-chat: hsl(169, 100%, 18%);
 
-		--gray-tertiary: 203, 22%, 21%;
-		/* CLASES AGREGADAS */
+    --gray-tertiary: hsl(203, 22%, 21%);
+    /* CLASES AGREGADAS */
 
-    --card: 20 14.3% 4.1%;
-    --card-foreground: 60 9.1% 97.8%;
+    --card: hsl(20, 14.3%, 4.1%);
+    --card-foreground: hsl(60, 9.1%, 97.8%);
 
-    --popover: 20 14.3% 4.1%;
-    --popover-foreground: 60 9.1% 97.8%;
+    --popover: hsl(20, 14.3%, 4.1%);
+    --popover-foreground: hsl(60, 9.1%, 97.8%);
 
-    --primary: 60 9.1% 97.8%;
-    --primary-foreground: 24 9.8% 10%;
+    --primary: hsl(60, 9.1%, 97.8%);
+    --primary-foreground: hsl(24, 9.8%, 10%);
 
-    --secondary: 12 6.5% 15.1%;
-    --secondary-foreground: 60 9.1% 97.8%;
+    --secondary: hsl(12, 6.5%, 15.1%);
+    --secondary-foreground: hsl(60, 9.1%, 97.8%);
 
-    --muted: 12 6.5% 15.1%;
-    --muted-foreground: 24 5.4% 63.9%;
+    --muted: hsl(12, 6.5%, 15.1%);
+    --muted-foreground: hsl(24, 5.4%, 63.9%);
 
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 60 9.1% 97.8%;
+    --accent: hsl(12, 6.5%, 15.1%);
+    --accent-foreground: hsl(60, 9.1%, 97.8%);
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 60 9.1% 97.8%;
+    --destructive: hsl(0, 62.8%, 30.6%);
+    --destructive-foreground: hsl(60, 9.1%, 97.8%);
 
-    --border: 12 6.5% 15.1%;
-    --input: 12 6.5% 15.1%;
-    --ring: 24 5.7% 82.9%;
+    --border: hsl(12, 6.5%, 15.1%);
+    --input: hsl(12, 6.5%, 15.1%);
+    --ring: hsl(24, 5.7%, 82.9%);
   }
 }
 

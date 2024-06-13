@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
+
+import { ThemeProvider } from '@/providers/theme-provider'
 import './globals.css'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
@@ -15,8 +17,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es">
-      <body className={montserrat.className}>{children}</body>
+    <html lang="es" suppressHydrationWarning>
+      <body className={`flex_center ${montserrat.className}`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }
