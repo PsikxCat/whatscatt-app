@@ -1,6 +1,10 @@
 export interface UserType {
   _id: string
-  // tipado por completar
+  name: string
+  email: string
+  image: string
+  admin?: boolean
+  isOnline: boolean
 }
 
 export enum Message {

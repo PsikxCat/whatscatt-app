@@ -9,6 +9,9 @@ const montserrat = Montserrat({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'WhatsCatt App',
   description: 'A simple app to chat with your friends',
+  icons: {
+    icon: '/favicon.ico',
+  },
 }
 
 export default function RootLayout({

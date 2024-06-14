@@ -60,8 +60,8 @@ const config = {
         'green-chat': 'var(--green-chat)',
       },
       backgroundImage: {
-        'chat-tile-light': "url('/bg-light.png')",
-        'chat-tile-dark': "url('/bg-dark.png')",
+        'chat-tile-light': "url('/bg-light.webp')",
+        'chat-tile-dark': "url('/bg-dark.webp')",
       },
       borderRadius: {
         lg: 'var(--radius)',

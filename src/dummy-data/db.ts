@@ -1,4 +1,4 @@
-import { Message, ConversationType } from '@/types'
+import { Message, ConversationType, MessageType, UserType } from '@/types'
 
 export const conversations: ConversationType[] = [
   {
@@ -72,5 +72,61 @@ export const conversations: ConversationType[] = [
     },
     sender: 'user9',
     isOnline: true,
+  },
+]
+
+export const messages: MessageType[] = [
+  {
+    _id: '1',
+    content: 'Hello everyone!',
+    sender: 'user1',
+    messageType: Message.Text,
+    _creationTime: 1718274840,
+  },
+  {
+    _id: '2',
+    content: 'Hey there!',
+    sender: 'user2',
+    messageType: Message.Text,
+    _creationTime: 1718274840,
+  },
+  {
+    _id: '3',
+    content: "How's it going!?",
+    sender: 'user1',
+    messageType: Message.Text,
+    _creationTime: 1718274840,
+  },
+  {
+    _id: '4',
+    content: 'Fine, thanks!',
+    sender: 'user2',
+    messageType: Message.Text,
+    _creationTime: 1718274840,
+  },
+]
+
+export const users: UserType[] = [
+  {
+    _id: 'user1',
+    name: 'Psikocat',
+    email: 'psikocat@email.com',
+    image: 'https://avatars.githubusercontent.com/u/98664927?s=96&v=4',
+    admin: true,
+    isOnline: true,
+  },
+  {
+    _id: 'user2',
+    name: 'Connie',
+    email: 'janedoe@email.com',
+    image: 'https://randomuser.me/api/portraits/women/67.jpg',
+    isOnline: true,
+  },
+  {
+    _id: 'user3',
+    name: 'Tats',
+    email: 'alice@email.com',
+    image: 'https://randomuser.me/api/portraits/women/68.jpg',
+    isOnline: false,
   },
 ]

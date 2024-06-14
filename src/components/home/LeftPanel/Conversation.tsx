@@ -2,7 +2,7 @@ import { ImageIcon, Users, VideoIcon } from 'lucide-react'
 
 import { formatDate } from '@/lib/utils'
 import { MessageSeenSvg } from '@/lib/svgs'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ConversationType } from '@/types'
 
 interface ConversationProps {
@@ -41,8 +41,8 @@ export default function Conversation({ conversation }: ConversationProps) {
         <section className="w-full">
           {/* Nombre de la conversación y última hora */}
           <div className="flex items-center">
-            <h3 className="text-xs font-medium lg:text-sm">{conversationName}</h3>
-            <span className="ml-auto text-[10px] text-gray-500 lg:text-xs">
+            <h3 className="text-sm font-medium">{conversationName}</h3>
+            <span className="ml-auto text-xs text-gray-500">
               {formatDate(lastMessage?._creationTime || conversation._creationTime)}
             </span>
           </div>

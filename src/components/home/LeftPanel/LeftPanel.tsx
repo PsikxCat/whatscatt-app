@@ -1,16 +1,16 @@
 import { ListFilter, LogOut, MessageSquareDiff, Search, User } from 'lucide-react'
 
 import { Conversation, ThemeSwitch } from '@/components'
-import { Input } from '../ui/input'
+import { Input } from '@/components/ui/input'
 import { conversations } from '@/dummy-data/db'
 
 export default function LeftPanel() {
   return (
-    <section className="w-1/4 border-r border-gray-600">
+    <section className="w-1/4 min-w-[300px] border-r border-gray-600">
       {/* Header //# TODOS */}
       <section className="sticky top-0 z-10 bg-left-panel">
         {/* Header */}
-        <div className="flex items-center justify-between bg-gray-primary p-3">
+        <div className="flex h-[60px] items-center justify-between bg-gray-primary p-3">
           <User size={24} />
 
           <div className="flex items-center gap-3">

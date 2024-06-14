@@ -1,4 +1,12 @@
-export { default as LeftPanel } from './home/LeftPanel'
-export { default as RightPanel } from './home/RightPanel'
-export { default as ThemeSwitch } from './home/ThemeSwitch'
-export { default as Conversation } from './home/Conversation'
+// Left Panel
+export { default as LeftPanel } from './home/LeftPanel/LeftPanel'
+export { default as ThemeSwitch } from './home/LeftPanel/ThemeSwitch'
+export { default as Conversation } from './home/LeftPanel/Conversation'
+
+// Right Panel
+export { default as RightPanel } from './home/RightPanel/RightPanel'
+export { default as ChatPlaceHolder } from './home/RightPanel/ChatPlaceHolder'
+export { default as MessageContainer } from './home/RightPanel/MessageContainer'
+export { default as ChatBubble } from './home/RightPanel/ChatBubble'
+export { default as GroupMembersDialog } from './home/RightPanel/GroupMembersDialog'
+export { default as MessageInput } from './home/RightPanel/MessageInput'
