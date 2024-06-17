@@ -1,8 +1,9 @@
-import { ListFilter, LogOut, MessageSquareDiff, Search, User } from 'lucide-react'
+import { ListFilter, LogOut, MessageSquareDiff, Search } from 'lucide-react'
+import { SignOutButton, UserButton } from '@clerk/nextjs'
 
+import { conversations } from '@/dummy-data/db'
 import { Conversation, ThemeSwitch } from '@/components'
 import { Input } from '@/components/ui/input'
-import { conversations } from '@/dummy-data/db'
 
 export default function LeftPanel() {
   return (
@@ -11,12 +12,16 @@ export default function LeftPanel() {
       <section className="sticky top-0 z-10 bg-left-panel">
         {/* Header */}
         <div className="flex h-[60px] items-center justify-between bg-gray-primary p-3">
-          <User size={24} />
+          <div>
+            <UserButton />
+          </div>
 
           <div className="flex items-center gap-3">
             <MessageSquareDiff size={20} /> {/* Reemplazar por componente */}
             <ThemeSwitch />
-            <LogOut size={20} className="cursor-pointer" /> {/* Reemplazar por componente */}
+            <SignOutButton>
+              <LogOut size={20} className="cursor-pointer" />
+            </SignOutButton>
           </div>
         </div>
 

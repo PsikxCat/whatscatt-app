@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 
-import { ThemeProvider } from '@/providers/theme-provider'
+import { ThemeProvider, ConvexClientProvider } from '@/providers/'
 import './globals.css'
 
 const montserrat = Montserrat({ subsets: ['latin'] })
@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <body className={`flex_center ${montserrat.className}`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {children}
+          <ConvexClientProvider>{children}</ConvexClientProvider>
         </ThemeProvider>
       </body>
     </html>
