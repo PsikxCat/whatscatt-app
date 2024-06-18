@@ -31,6 +31,22 @@ http.route({
             image: result.data.image_url,
           })
           break
+        case 'user.updated':
+          await runMutation(internal.users.updateUser, {
+            tokenIdentifier: `${process.env.CLERK_APP_DOMAIN}|${result.data.id}`,
+            image: result.data.image_url,
+          })
+          break
+        case 'session.ended':
+          await runMutation(internal.users.setUserOffline, {
+            tokenIdentifier: `${process.env.CLERK_APP_DOMAIN}|${result.data.user_id}`,
+          })
+          break
+        case 'session.created':
+          await runMutation(internal.users.setUserOnline, {
+            tokenIdentifier: `${process.env.CLERK_APP_DOMAIN}|${result.data.user_id}`,
+          })
+          break
       }
 
       return new Response(null, { status: 200 })

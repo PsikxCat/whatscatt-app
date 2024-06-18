@@ -8,5 +8,5 @@ export default defineSchema({
     image: v.string(),
     tokenIdentifier: v.string(),
     online: v.boolean(),
-  }),
+  }).index('by_tokenIdentifier', ['tokenIdentifier']),
 })
