@@ -1,6 +1,9 @@
-import { Crown } from 'lucide-react'
+'use client'
 
-import { users } from '@/dummy-data/db'
+import { useQuery } from 'convex/react'
+// import { Crown } from 'lucide-react'
+
+import { api } from '@cx/_generated/api'
 import {
   Dialog,
   DialogContent,
@@ -12,6 +15,8 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export default function GroupMembersDialog() {
+  const users = useQuery(api.users.getUsers)
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -27,7 +32,7 @@ export default function GroupMembersDialog() {
               {users?.map((user) => (
                 <section key={user._id} className={`flex items-center gap-3 rounded p-2`}>
                   <Avatar className="overflow-visible">
-                    {user.isOnline && (
+                    {user.online && (
                       <div className="absolute right-0 top-0 h-2 w-2 rounded-full border-2 border-foreground bg-green-500" />
                     )}
 
@@ -41,7 +46,7 @@ export default function GroupMembersDialog() {
                     <div className="flex items-center gap-2">
                       <h3 className="text-md font-medium">{user.name || user.email.split('@')[0]}</h3>
 
-                      {user.admin && <Crown size={16} className="text-yellow-400" />}
+                      {/* {user.admin && <Crown size={16} className="text-yellow-400" />} */}
                     </div>
                   </div>
                 </section>

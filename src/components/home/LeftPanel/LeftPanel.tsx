@@ -1,11 +1,16 @@
-import { ListFilter, LogOut, MessageSquareDiff, Search } from 'lucide-react'
+'use client'
+
+import { useConvexAuth } from 'convex/react'
 import { SignOutButton, UserButton } from '@clerk/nextjs'
+import { ListFilter, LogOut, Search } from 'lucide-react'
 
 import { conversations } from '@/dummy-data/db'
-import { Conversation, ThemeSwitch } from '@/components'
+import { Conversation, ThemeSwitch, UsersListDialog } from '@/components'
 import { Input } from '@/components/ui/input'
 
 export default function LeftPanel() {
+  const { isAuthenticated } = useConvexAuth()
+
   return (
     <section className="w-1/4 min-w-[300px] border-r border-gray-600">
       {/* Header //# TODOS */}
@@ -17,7 +22,7 @@ export default function LeftPanel() {
           </div>
 
           <div className="flex items-center gap-3">
-            <MessageSquareDiff size={20} /> {/* Reemplazar por componente */}
+            {isAuthenticated && <UsersListDialog />}
             <ThemeSwitch />
             <SignOutButton>
               <LogOut size={20} className="cursor-pointer" />
@@ -39,7 +44,7 @@ export default function LeftPanel() {
         </div>
       </section>
 
-      {/* Chat List //# TODOS */}
+      {/* Chat List */}
       <section className="my-3 flex max-h-[80%] flex-col gap-0 overflow-auto">
         {conversations?.length === 0 && (
           <>

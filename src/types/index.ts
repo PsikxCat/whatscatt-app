@@ -1,10 +1,14 @@
+import { Id } from '@cx/_generated/dataModel'
+
 export interface UserType {
-  _id: string
-  name: string
+  _id: Id<'users'>
+  _creationTime: number
+  name?: string
   email: string
   image: string
   admin?: boolean
-  isOnline: boolean
+  online: boolean
+  tokenIdentifier: string
 }
 
 export enum Message {

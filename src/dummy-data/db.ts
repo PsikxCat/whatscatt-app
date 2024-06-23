@@ -1,4 +1,4 @@
-import { Message, ConversationType, MessageType, UserType } from '@/types'
+import { Message, ConversationType, MessageType } from '@/types'
 
 export const conversations: ConversationType[] = [
   {
@@ -106,27 +106,27 @@ export const messages: MessageType[] = [
   },
 ]
 
-export const users: UserType[] = [
-  {
-    _id: 'user1',
-    name: 'Psikocat',
-    email: 'psikocat@email.com',
-    image: 'https://avatars.githubusercontent.com/u/98664927?s=96&v=4',
-    admin: true,
-    isOnline: true,
-  },
-  {
-    _id: 'user2',
-    name: 'Connie',
-    email: 'janedoe@email.com',
-    image: 'https://randomuser.me/api/portraits/women/67.jpg',
-    isOnline: true,
-  },
-  {
-    _id: 'user3',
-    name: 'Tats',
-    email: 'alice@email.com',
-    image: 'https://randomuser.me/api/portraits/women/68.jpg',
-    isOnline: false,
-  },
-]
+// export const users: UserType[] = [
+//   {
+//     _id: 'user1',
+//     name: 'Psikocat',
+//     email: 'psikocat@email.com',
+//     image: 'https://avatars.githubusercontent.com/u/98664927?s=96&v=4',
+//     admin: true,
+//     isOnline: true,
+//   },
+//   {
+//     _id: 'user2',
+//     name: 'Connie',
+//     email: 'janedoe@email.com',
+//     image: 'https://randomuser.me/api/portraits/women/67.jpg',
+//     isOnline: true,
+//   },
+//   {
+//     _id: 'user3',
+//     name: 'Tats',
+//     email: 'alice@email.com',
+//     image: 'https://randomuser.me/api/portraits/women/68.jpg',
+//     isOnline: false,
+//   },
+// ]

@@ -1,5 +1,5 @@
 import { ConvexError, v } from 'convex/values'
-import { internalMutation } from './_generated/server'
+import { internalMutation, query } from './_generated/server'
 
 export const createUser = internalMutation({
   args: {
@@ -65,5 +65,32 @@ export const setUserOnline = internalMutation({
     if (!user) throw new ConvexError('Usuario no encontrado')
 
     await db.patch(user._id, { online: true })
+  },
+})
+
+export const getUsers = query({
+  handler: async ({ auth, db }) => {
+    const identity = await auth.getUserIdentity()
+    if (!identity) throw new ConvexError('No autorizado')
+
+    const users = await db.query('users').collect()
+
+    return users
+  },
+})
+
+export const getActualUser = query({
+  handler: async ({ auth, db }) => {
+    const identity = await auth.getUserIdentity()
+    if (!identity) throw new ConvexError('No autorizado')
+
+    const user = await db
+      .query('users')
+      .withIndex('by_tokenIdentifier', (q) => q.eq('tokenIdentifier', identity.tokenIdentifier))
+      .unique()
+
+    if (!user) throw new ConvexError('Usuario no encontrado')
+
+    return user
   },
 })

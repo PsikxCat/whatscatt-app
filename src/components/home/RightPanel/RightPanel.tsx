@@ -1,9 +1,14 @@
+'use client'
+
+import { useConvexAuth } from 'convex/react'
 import { Video, X } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ChatPlaceHolder, GroupMembersDialog, MessageContainer, MessageInput } from '@/components'
 
 export default function RightPanel() {
+  const { isAuthenticated } = useConvexAuth()
+
   const selectedConversation = true // ! <-- Simulación de conversación seleccionada
   const conversationName = 'Psikocat' // ! <-- Simulación de nombre de conversación
   const isGroup = true // ! <-- Simulación de grupo
@@ -25,7 +30,7 @@ export default function RightPanel() {
 
             <div className="flex flex-col">
               <p>{conversationName}</p>
-              {isGroup && <GroupMembersDialog />}
+              {isGroup && isAuthenticated && <GroupMembersDialog />}
             </div>
           </div>
 

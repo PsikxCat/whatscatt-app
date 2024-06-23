@@ -2,6 +2,7 @@
 export { default as LeftPanel } from './home/LeftPanel/LeftPanel'
 export { default as ThemeSwitch } from './home/LeftPanel/ThemeSwitch'
 export { default as Conversation } from './home/LeftPanel/Conversation'
+export { default as UsersListDialog } from './home/LeftPanel/UsersListDialog'
 
 // Right Panel
 export { default as RightPanel } from './home/RightPanel/RightPanel'
