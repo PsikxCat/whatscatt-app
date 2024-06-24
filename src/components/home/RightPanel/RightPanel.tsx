@@ -1,19 +1,18 @@
 'use client'
 
+import { useContext } from 'react'
 import { useConvexAuth } from 'convex/react'
 import { Video, X } from 'lucide-react'
 
+import { GlobalContext } from '@/context/GlobalContext'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { ChatPlaceHolder, GroupMembersDialog, MessageContainer, MessageInput } from '@/components'
 
 export default function RightPanel() {
+  const { selectedChat, setSelectedChat } = useContext(GlobalContext)
   const { isAuthenticated } = useConvexAuth()
 
-  const selectedConversation = true // ! <-- Simulación de conversación seleccionada
-  const conversationName = 'Psikocat' // ! <-- Simulación de nombre de conversación
-  const isGroup = true // ! <-- Simulación de grupo
-
-  if (!selectedConversation) return <ChatPlaceHolder />
+  if (!selectedChat) return <ChatPlaceHolder />
 
   return (
     <section className="flex w-3/4 flex-col">
@@ -22,15 +21,17 @@ export default function RightPanel() {
           {/* Avatar y nombre del chat */}
           <div className="flex items-center gap-3">
             <Avatar>
-              <AvatarImage src={'/placeholder.webp'} className="object-cover" />
+              <AvatarImage src={(selectedChat.chatImage as string) || '/placeholder.webp'} className="object-cover" />
               <AvatarFallback>
                 <div className="h-full w-full animate-pulse rounded-full bg-gray-tertiary" />
               </AvatarFallback>
             </Avatar>
 
             <div className="flex flex-col">
-              <p>{conversationName}</p>
-              {isGroup && isAuthenticated && <GroupMembersDialog />}
+              <p>{selectedChat.chatName}</p>
+              {selectedChat.isGroup && isAuthenticated && (
+                <GroupMembersDialog admin={selectedChat.admin} chatId={selectedChat._id} />
+              )}
             </div>
           </div>
 
@@ -40,7 +41,7 @@ export default function RightPanel() {
               <Video size={23} />
             </a>
 
-            <X size={16} className="cursor-pointer" />
+            <X size={16} className="cursor-pointer" onClick={() => setSelectedChat(null)} />
           </div>
         </div>
       </section>

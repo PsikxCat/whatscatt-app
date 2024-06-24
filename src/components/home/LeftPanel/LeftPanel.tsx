@@ -1,15 +1,16 @@
 'use client'
 
-import { useConvexAuth } from 'convex/react'
+import { useConvexAuth, useQuery } from 'convex/react'
 import { SignOutButton, UserButton } from '@clerk/nextjs'
 import { ListFilter, LogOut, Search } from 'lucide-react'
 
-import { conversations } from '@/dummy-data/db'
-import { Conversation, ThemeSwitch, UsersListDialog } from '@/components'
+import { api } from '@cx/_generated/api'
+import { Chat, ThemeSwitch, UsersListDialog } from '@/components'
 import { Input } from '@/components/ui/input'
 
 export default function LeftPanel() {
   const { isAuthenticated } = useConvexAuth()
+  const chats = useQuery(api.chats.getUserChats, isAuthenticated ? undefined : 'skip')
 
   return (
     <section className="w-1/4 min-w-[300px] border-r border-gray-600">
@@ -46,7 +47,7 @@ export default function LeftPanel() {
 
       {/* Chat List */}
       <section className="my-3 flex max-h-[80%] flex-col gap-0 overflow-auto">
-        {conversations?.length === 0 && (
+        {chats?.length === 0 && (
           <>
             <p className="mx-1 mt-3 text-center text-sm text-gray-500">Aún no tienes conversaciones</p>
             <p className="mx-1 mt-3 text-center text-sm text-gray-500">
@@ -55,7 +56,7 @@ export default function LeftPanel() {
           </>
         )}
 
-        {conversations?.map((conversation) => <Conversation key={conversation._id} conversation={conversation} />)}
+        {chats?.map((chat) => <Chat key={chat._id} chat={chat} />)}
       </section>
     </section>
   )

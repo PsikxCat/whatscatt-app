@@ -11,29 +11,23 @@ export interface UserType {
   tokenIdentifier: string
 }
 
-export enum Message {
-  Text = 'text',
-  Image = 'image',
-  Video = 'video',
-}
-
 export interface MessageType {
-  _id: string
-  messageType: Message
+  _id: Id<'messages'> | string // string solo para dummy-data
+  chat: Id<'chats'> | string // string solo para dummy-data
+  messageType: 'text' | 'image' | 'video'
   content: string
-  sender: string
+  sender: Id<'users'> | string // string solo para dummy-data
   _creationTime: number
 }
 
-export interface ConversationType {
-  _id: string
-  isGroup: boolean // <---- Pendiente de revisar
+export interface ChatType {
+  _id: Id<'chats'>
+  isGroup: boolean
   admin: string | null
   chatImage: string | null
   chatName: string | null
-  participants: string[]
+  members: Id<'users'>[]
   _creationTime: number
   lastMessage?: MessageType
-  sender: string
-  isOnline: boolean
+  online: boolean | null
 }

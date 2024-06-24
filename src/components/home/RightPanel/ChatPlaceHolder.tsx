@@ -9,7 +9,7 @@ export default function ChatPlaceHolder() {
       <div className="flex_center_column w-full gap-4 py-10">
         <Image src={'/desktop-hero.webp'} alt="Hero" width={320} height={188} />
 
-        <p className="mb-2 mt-5 text-3xl font-extralight">Descarga WhatsCatt</p>
+        <p className="mb-2 mt-5 text-center text-3xl font-extralight">Descarga WhatsCatt</p>
 
         <p className="text-gray-primary w-1/2 text-center text-sm text-muted-foreground">
           Haz llamadas, comparte tu pantalla y obtén una experiencia más rápida.

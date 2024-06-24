@@ -94,3 +94,23 @@ export const getActualUser = query({
     return user
   },
 })
+
+export const getGroupMembers = query({
+  args: { chatId: v.id('chats') },
+  handler: async ({ auth, db }, { chatId }) => {
+    const identity = await auth.getUserIdentity()
+    if (!identity) throw new ConvexError('No autorizado')
+
+    const chat = await db
+      .query('chats')
+      .filter((q) => q.eq(q.field('_id'), chatId))
+      .first()
+
+    if (!chat) throw new ConvexError('Chat no encontrado')
+
+    const users = await db.query('users').collect()
+    const groupMembers = users.filter((user) => chat.members.includes(user._id))
+
+    return groupMembers
+  },
+})

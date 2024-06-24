@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Montserrat } from 'next/font/google'
 
+import GlobalProvider from '@/context/GlobalProvider'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider, ConvexClientProvider } from '@/providers/'
 import './globals.css'
@@ -24,10 +25,12 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <body className={`flex_center ${montserrat.className}`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          <ConvexClientProvider>
-            {children}
-            <Toaster />
-          </ConvexClientProvider>
+          <GlobalProvider>
+            <ConvexClientProvider>
+              {children}
+              <Toaster />
+            </ConvexClientProvider>
+          </GlobalProvider>
         </ThemeProvider>
       </body>
     </html>

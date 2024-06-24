@@ -1,7 +1,7 @@
 // Left Panel
 export { default as LeftPanel } from './home/LeftPanel/LeftPanel'
 export { default as ThemeSwitch } from './home/LeftPanel/ThemeSwitch'
-export { default as Conversation } from './home/LeftPanel/Conversation'
+export { default as Chat } from './home/LeftPanel/Chat'
 export { default as UsersListDialog } from './home/LeftPanel/UsersListDialog'
 
 // Right Panel
