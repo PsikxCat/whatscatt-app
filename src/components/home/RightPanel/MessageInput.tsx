@@ -1,20 +1,41 @@
 'use client'
 
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { useMutation, useQuery } from 'convex/react'
 import { Laugh, Mic, Plus, Send } from 'lucide-react'
 
+import { GlobalContext } from '@/context/GlobalContext'
+import { api } from '@cx/_generated/api'
+import { useToast } from '@/components/ui/use-toast'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
 export default function MessageInput() {
   const [msgText, setMsgText] = useState<string>('')
+  const { selectedChat } = useContext(GlobalContext)
+  const { toast } = useToast()
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const sendTextMessage = useMutation(api.messages.sendTextMessage)
+  const actualUser = useQuery(api.users.getActualUser)
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (msgText.length > 0) {
-      console.log('Mensaje enviado:', msgText)
+    try {
+      await sendTextMessage({
+        senderId: actualUser!._id,
+        content: msgText,
+        chatId: selectedChat!._id,
+      })
+
       setMsgText('')
+    } catch (error) {
+      console.error(error)
+      toast({
+        variant: 'destructive',
+        title: 'Error al enviar el mensaje',
+        description: 'Ocurrió un error al enviar el mensaje, por favor intenta de nuevo',
+      })
     }
   }
 

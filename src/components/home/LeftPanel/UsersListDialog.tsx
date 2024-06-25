@@ -55,6 +55,7 @@ export default function UsersListDialog() {
     )
   }
 
+  // # TODO: Agregar funcionalidad para redireccionar al chat creado
   const handleCreateChat = async () => {
     if (selectedUsers.length === 0) return
     setIsLoading(true)
