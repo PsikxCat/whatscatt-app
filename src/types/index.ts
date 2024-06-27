@@ -11,13 +11,17 @@ export interface UserType {
   tokenIdentifier: string
 }
 
-export interface MessageType {
-  _id: Id<'messages'> | string // string solo para dummy-data
-  chat: Id<'chats'> | string // string solo para dummy-data
+interface LastMessageType {
+  _id: Id<'messages'>
+  chat: Id<'chats'>
   messageType: 'text' | 'image' | 'video'
   content: string
-  sender: Id<'users'> | string // string solo para dummy-data
+  sender: string | Id<'users'>
   _creationTime: number
+}
+
+export interface MessageType extends Omit<LastMessageType, 'sender'> {
+  sender: UserType
 }
 
 export interface ChatType {
@@ -28,6 +32,6 @@ export interface ChatType {
   chatName: string | null
   members: Id<'users'>[]
   _creationTime: number
-  lastMessage?: MessageType
+  lastMessage?: LastMessageType
   online: boolean | null
 }

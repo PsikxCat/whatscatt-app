@@ -1,8 +1,8 @@
 import { SVGProps } from 'react'
 
-type SVGIconProps = SVGProps<SVGSVGElement>
+type SVGWithProps = SVGProps<SVGSVGElement>
 
-export function MessageSeenSvg(props: SVGIconProps) {
+export function MessageSeenSvg(props: SVGWithProps) {
   return (
     <svg width={16} height={11} fill="none" {...props}>
       <title>{'msg-dblcheck'}</title>

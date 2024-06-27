@@ -1,5 +1,5 @@
 import { ConvexError, v } from 'convex/values'
-import { mutation } from './_generated/server'
+import { mutation, query } from './_generated/server'
 
 export const sendTextMessage = mutation({
   args: {
@@ -33,5 +33,49 @@ export const sendTextMessage = mutation({
       chat: chatId,
       messageType: 'text',
     })
+  },
+})
+
+export const getMessages = query({
+  args: {
+    chatId: v.id('chats'),
+  },
+  handler: async ({ auth, db }, { chatId }) => {
+    const identity = await auth.getUserIdentity()
+    if (!identity) throw new ConvexError('No autenticado')
+
+    const messages = await db
+      .query('messages')
+      .withIndex('by_chat', (q) => q.eq('chat', chatId))
+      .collect()
+
+    const userProfileCache = new Map()
+
+    const detailMessages = await Promise.all(
+      messages.map(async (message) => {
+        let sender
+
+        // Verificar si el perfil del usuario ya esta en cache
+        if (userProfileCache.has(message.sender)) {
+          sender = userProfileCache.get(message.sender)
+        } else {
+          // Si no esta en cache, se busca en la base de datos
+          sender = await db
+            .query('users')
+            .filter((q) => q.eq(q.field('_id'), message.sender))
+            .first()
+
+          // Se guarda en cache para futuras referencias
+          userProfileCache.set(message.sender, sender)
+        }
+
+        return {
+          ...message,
+          sender,
+        }
+      }),
+    )
+
+    return detailMessages
   },
 })

@@ -7,7 +7,6 @@ export default defineSchema({
     email: v.string(),
     image: v.string(),
     tokenIdentifier: v.string(),
-    // admin: v.optional(v.boolean()), // ! PENDIENTE
     online: v.boolean(),
   }).index('by_tokenIdentifier', ['tokenIdentifier']),
   chats: defineTable({
@@ -15,7 +14,7 @@ export default defineSchema({
     isGroup: v.boolean(),
     chatImage: v.optional(v.string()),
     chatName: v.optional(v.string()),
-    //lastMessage: v.optional(v.id('messages')), // ! PENDIENTE
+    lastMessage: v.optional(v.id('messages')), // ! PENDIENTE
     admin: v.optional(v.id('users')),
   }),
   messages: defineTable({

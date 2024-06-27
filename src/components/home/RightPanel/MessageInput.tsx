@@ -3,16 +3,19 @@
 import { useContext, useState } from 'react'
 import { useMutation, useQuery } from 'convex/react'
 import { Laugh, Mic, Plus, Send } from 'lucide-react'
+import EmojiPicker, { Theme, EmojiStyle } from 'emoji-picker-react'
 
 import { GlobalContext } from '@/context/GlobalContext'
+import { useComponentVisible } from '@/hooks'
 import { api } from '@cx/_generated/api'
 import { useToast } from '@/components/ui/use-toast'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 
 export default function MessageInput() {
-  const [msgText, setMsgText] = useState<string>('')
   const { selectedChat } = useContext(GlobalContext)
+  const [msgText, setMsgText] = useState<string>('')
+  const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false)
   const { toast } = useToast()
 
   const sendTextMessage = useMutation(api.messages.sendTextMessage)
@@ -42,11 +45,24 @@ export default function MessageInput() {
   return (
     <section className="flex items-center gap-4 bg-gray-primary p-2">
       {/*  Emojis y adjuntos */}
-      <div className="relative ml-2 flex gap-2">
-        {/* EMOJI PICKER AQUI */}
-        <Laugh className="text-gray-600 dark:text-gray-400" />
+      <section className="relative ml-2 flex gap-2">
+        <div ref={ref} onClick={() => setIsComponentVisible(true)}>
+          {isComponentVisible && (
+            <EmojiPicker
+              onEmojiClick={({ emoji }) => setMsgText(msgText + emoji)}
+              theme={Theme.DARK}
+              emojiStyle={EmojiStyle.TWITTER}
+              searchDisabled={true}
+              skinTonesDisabled={true}
+              style={{ position: 'absolute', bottom: '37px', left: '-16px', zIndex: 50 }}
+            />
+          )}
+
+          <Laugh className="text-gray-600 dark:text-gray-400" />
+        </div>
+
         <Plus className="text-gray-600 dark:text-gray-400" />
-      </div>
+      </section>
 
       <form className="flex w-full gap-3" onSubmit={handleSubmit}>
         {/* Input del mensaje */}
