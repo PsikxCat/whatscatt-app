@@ -14,7 +14,7 @@ export default function LeftPanel() {
 
   return (
     <section className="w-1/4 min-w-[300px] border-r border-gray-600">
-      {/* Header //# TODOS */}
+      {/* Header  */}
       <section className="sticky top-0 z-10 bg-left-panel">
         {/* Header */}
         <div className="flex h-[60px] items-center justify-between bg-gray-primary p-3">
