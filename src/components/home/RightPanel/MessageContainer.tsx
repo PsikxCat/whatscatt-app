@@ -1,7 +1,7 @@
 'use client'
 
 import { useContext } from 'react'
-import { useConvexAuth, useQuery } from 'convex/react'
+import { useQuery } from 'convex/react'
 import { api } from '@cx/_generated/api'
 
 import { GlobalContext } from '@/context/GlobalContext'
@@ -9,10 +9,9 @@ import { ChatBubble } from '@/components'
 
 export default function MessageContainer() {
   const { selectedChat } = useContext(GlobalContext)
-  const { isAuthenticated } = useConvexAuth()
 
   const messages = useQuery(api.messages.getMessages, { chatId: selectedChat!._id })
-  const actualUser = useQuery(api.users.getActualUser, isAuthenticated ? undefined : 'skip')
+  const actualUser = useQuery(api.users.getActualUser)
 
   return (
     <section className="relative h-full flex-1 overflow-auto bg-chat-tile-light py-4 dark:bg-chat-tile-dark">

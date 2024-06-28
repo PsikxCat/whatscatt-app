@@ -1,10 +1,11 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { ImageIcon, MessageSquareDiff } from 'lucide-react'
 import { useMutation, useQuery } from 'convex/react'
 import Image from 'next/image'
 
+import { GlobalContext } from '@/context/GlobalContext'
 import { UserType } from '@/types'
 import { Id } from '@cx/_generated/dataModel'
 import { api } from '@cx/_generated/api'
@@ -28,6 +29,7 @@ export default function UsersListDialog() {
   const [isLoading, setIsLoading] = useState(false)
   const [selectedImage, setSelectedImage] = useState<File | null>(null)
   const [renderedImage, setRenderedImage] = useState('')
+  const { setSelectedChat } = useContext(GlobalContext)
 
   const { toast } = useToast()
   const imgRef = useRef<HTMLInputElement>(null)
@@ -55,7 +57,6 @@ export default function UsersListDialog() {
     )
   }
 
-  // # TODO: Agregar funcionalidad para redireccionar al chat creado
   const handleCreateChat = async () => {
     if (selectedUsers.length === 0) return
     setIsLoading(true)
@@ -63,9 +64,10 @@ export default function UsersListDialog() {
     try {
       const isGroup = selectedUsers.length > 1
 
+      let chatId
       // Chat para 2 usuarios
       if (!isGroup) {
-        await createChat({
+        chatId = await createChat({
           members: [...selectedUsers, actualUser!._id],
           isGroup: false,
         })
@@ -84,7 +86,7 @@ export default function UsersListDialog() {
 
         const { storageId } = await result.json()
 
-        await createChat({
+        chatId = await createChat({
           members: [...selectedUsers, actualUser!._id],
           isGroup: true,
           chatImage: storageId,
@@ -93,9 +95,20 @@ export default function UsersListDialog() {
         })
       }
 
-      handleCloseDialog()
+      const newChatName = isGroup ? chatName : users?.find((user) => user._id === selectedUsers[0])?.name
 
-      // ################## TODO: Agregar funcionalidad para redireccionar al chat creado ################## //
+      setSelectedChat({
+        _id: chatId,
+        chatName: newChatName!,
+        members: selectedUsers,
+        isGroup,
+        chatImage: isGroup ? renderedImage : users!.find((user) => user._id === selectedUsers[0])!.image,
+        admin: actualUser!._id,
+        _creationTime: Date.now(),
+        online: null,
+      })
+
+      handleCloseDialog()
     } catch (error) {
       console.error(error)
       toast({

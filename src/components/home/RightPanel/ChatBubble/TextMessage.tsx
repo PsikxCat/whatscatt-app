@@ -14,13 +14,15 @@ export default function TextMessage({ message }: TextMessageProps) {
           href={message.content}
           target="_blank"
           rel="noopener noreferrer"
-          className="mr-2 text-sm font-light text-blue-400 underline after:w-14 after:content-['']"
+          className="my-1 mr-2 flex text-sm font-light text-blue-400 underline after:w-14 after:content-['']"
         >
           {message.content}
-          <span className="w-18" />
+          <div className="w-1" />
         </a>
       ) : (
-        <p className="mr-2 text-sm font-light after:inline-block after:w-14 after:content-['']">{message.content}</p>
+        <p className="my-1 mr-2 text-sm font-light after:inline-block after:w-14 after:content-['']">
+          {message.content}
+        </p>
       )}
     </div>
   )

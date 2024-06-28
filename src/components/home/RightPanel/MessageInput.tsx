@@ -2,12 +2,13 @@
 
 import { useContext, useState } from 'react'
 import { useMutation, useQuery } from 'convex/react'
-import { Laugh, Mic, Plus, Send } from 'lucide-react'
+import { Laugh, Mic, Send } from 'lucide-react'
 import EmojiPicker, { Theme, EmojiStyle } from 'emoji-picker-react'
 
 import { GlobalContext } from '@/context/GlobalContext'
 import { useComponentVisible } from '@/hooks'
 import { api } from '@cx/_generated/api'
+import { MediaDropdown } from '@/components'
 import { useToast } from '@/components/ui/use-toast'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -61,7 +62,7 @@ export default function MessageInput() {
           <Laugh className="text-gray-600 dark:text-gray-400" />
         </div>
 
-        <Plus className="text-gray-600 dark:text-gray-400" />
+        <MediaDropdown />
       </section>
 
       <form className="flex w-full gap-3" onSubmit={handleSubmit}>
@@ -69,7 +70,7 @@ export default function MessageInput() {
         <div className="flex-1">
           <Input
             type="text"
-            placeholder="Type a message"
+            placeholder="Escribe un mensaje..."
             className="w-full rounded-lg bg-gray-tertiary py-2 text-sm shadow-sm focus-visible:ring-transparent"
             value={msgText}
             onChange={(e) => setMsgText(e.target.value)}

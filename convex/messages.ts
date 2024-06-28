@@ -79,3 +79,45 @@ export const getMessages = query({
     return detailMessages
   },
 })
+
+export const sendImageMessage = mutation({
+  args: {
+    senderId: v.id('users'),
+    chatId: v.id('chats'),
+    media: v.id('_storage'),
+  },
+  handler: async ({ auth, storage, db }, { senderId, chatId, media }) => {
+    const identity = await auth.getUserIdentity()
+    if (!identity) throw new ConvexError('No autenticado')
+
+    const content = (await storage.getUrl(media)) as string
+
+    await db.insert('messages', {
+      content,
+      sender: senderId,
+      chat: chatId,
+      messageType: 'image',
+    })
+  },
+})
+
+export const sendVideoMessage = mutation({
+  args: {
+    senderId: v.id('users'),
+    chatId: v.id('chats'),
+    media: v.id('_storage'),
+  },
+  handler: async ({ auth, storage, db }, { senderId, chatId, media }) => {
+    const identity = await auth.getUserIdentity()
+    if (!identity) throw new ConvexError('No autenticado')
+
+    const content = (await storage.getUrl(media)) as string
+
+    await db.insert('messages', {
+      content,
+      sender: senderId,
+      chat: chatId,
+      messageType: 'video',
+    })
+  },
+})

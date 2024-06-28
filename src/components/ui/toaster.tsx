@@ -20,7 +20,7 @@ export function Toaster() {
           </Toast>
         )
       })}
-      <ToastViewport />
+      <ToastViewport className="flex flex-col items-center" />
     </ToastProvider>
   )
 }
