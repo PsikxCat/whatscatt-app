@@ -101,10 +101,7 @@ export const getGroupMembers = query({
     const identity = await auth.getUserIdentity()
     if (!identity) throw new ConvexError('No autorizado')
 
-    const chat = await db
-      .query('chats')
-      .filter((q) => q.eq(q.field('_id'), chatId))
-      .first()
+    const chat = await db.get(chatId)
 
     if (!chat) throw new ConvexError('Chat no encontrado')
 

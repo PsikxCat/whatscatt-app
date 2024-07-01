@@ -16,7 +16,7 @@ interface LastMessageType {
   chat: Id<'chats'>
   messageType: 'text' | 'image' | 'video'
   content: string
-  sender: string | Id<'users'>
+  sender: string | Id<'users'> // el tipo string solo si se implementa el chatbot
   _creationTime: number
 }
 

@@ -59,6 +59,7 @@ export default function MediaDropdown() {
       })
     } finally {
       setIsLoading(false)
+      type === 'image' ? setSelectedImage(null) : setSelectedVideo(null)
     }
   }
 
@@ -109,7 +110,7 @@ export default function MediaDropdown() {
           ref={imageInput}
           accept="image/*"
           hidden
-          onChange={(e) => setSelectedImage(e.target.files![0])}
+          onChange={(e) => setSelectedImage(e.target.files![0] || null)}
         />
 
         <input
@@ -117,7 +118,7 @@ export default function MediaDropdown() {
           ref={videoInput}
           accept="video/mp4"
           hidden
-          onChange={(e) => setSelectedVideo(e.target.files![0])}
+          onChange={(e) => setSelectedVideo(e.target.files![0] || null)}
         />
       </>
     </>

@@ -18,7 +18,7 @@ export const sendTextMessage = mutation({
 
     if (!user) throw new ConvexError('Usuario no encontrado')
 
-    const chat = await db
+    const chat = await db // si no se implementa el chatbot, eliminar tipado string y cambiar busqueda query por get)
       .query('chats')
       .filter((q) => q.eq(q.field('_id'), chatId))
       .first()
@@ -32,6 +32,50 @@ export const sendTextMessage = mutation({
       sender: senderId,
       chat: chatId,
       messageType: 'text',
+    })
+  },
+})
+
+export const sendImageMessage = mutation({
+  args: {
+    senderId: v.id('users'),
+    chatId: v.id('chats'),
+    media: v.id('_storage'),
+  },
+  handler: async ({ auth, storage, db }, { senderId, chatId, media }) => {
+    const identity = await auth.getUserIdentity()
+    if (!identity) throw new ConvexError('No autenticado')
+
+    const content = (await storage.getUrl(media)) as string
+
+    await db.insert('messages', {
+      content,
+      sender: senderId,
+      chat: chatId,
+      messageType: 'image',
+      fileStorageId: media,
+    })
+  },
+})
+
+export const sendVideoMessage = mutation({
+  args: {
+    senderId: v.id('users'),
+    chatId: v.id('chats'),
+    media: v.id('_storage'),
+  },
+  handler: async ({ auth, storage, db }, { senderId, chatId, media }) => {
+    const identity = await auth.getUserIdentity()
+    if (!identity) throw new ConvexError('No autenticado')
+
+    const content = (await storage.getUrl(media)) as string
+
+    await db.insert('messages', {
+      content,
+      sender: senderId,
+      chat: chatId,
+      messageType: 'video',
+      fileStorageId: media,
     })
   },
 })
@@ -80,44 +124,34 @@ export const getMessages = query({
   },
 })
 
-export const sendImageMessage = mutation({
+export const deleteMessage = mutation({
   args: {
-    senderId: v.id('users'),
-    chatId: v.id('chats'),
-    media: v.id('_storage'),
+    messageId: v.id('messages'),
   },
-  handler: async ({ auth, storage, db }, { senderId, chatId, media }) => {
+  handler: async ({ auth, db, storage }, { messageId }) => {
     const identity = await auth.getUserIdentity()
     if (!identity) throw new ConvexError('No autenticado')
 
-    const content = (await storage.getUrl(media)) as string
+    const message = await db.get(messageId)
+    if (!message) throw new ConvexError('Mensaje no encontrado')
 
-    await db.insert('messages', {
-      content,
-      sender: senderId,
-      chat: chatId,
-      messageType: 'image',
-    })
-  },
-})
+    const chat = await db.get(message.chat)
+    if (!chat) throw new ConvexError('Chat no encontrado')
 
-export const sendVideoMessage = mutation({
-  args: {
-    senderId: v.id('users'),
-    chatId: v.id('chats'),
-    media: v.id('_storage'),
-  },
-  handler: async ({ auth, storage, db }, { senderId, chatId, media }) => {
-    const identity = await auth.getUserIdentity()
-    if (!identity) throw new ConvexError('No autenticado')
+    const user = await db
+      .query('users')
+      .filter((q) => q.eq(q.field('_id'), message.sender))
+      .first()
 
-    const content = (await storage.getUrl(media)) as string
+    if (!user) throw new ConvexError('Usuario no encontrado')
 
-    await db.insert('messages', {
-      content,
-      sender: senderId,
-      chat: chatId,
-      messageType: 'video',
-    })
+    if (identity.tokenIdentifier !== user.tokenIdentifier) throw new ConvexError('No autorizado')
+
+    if (message.messageType === 'image' || message.messageType === 'video') {
+      const storageId = message.fileStorageId
+      if (storageId) await storage.delete(storageId)
+    }
+
+    await db.delete(messageId)
   },
 })

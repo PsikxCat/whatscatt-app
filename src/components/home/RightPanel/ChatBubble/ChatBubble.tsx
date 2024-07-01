@@ -12,6 +12,9 @@ import {
   TextMessage,
   VideoMessage,
 } from '@/components'
+import { Trash2 } from 'lucide-react'
+import { useMutation } from 'convex/react'
+import { api } from '@cx/_generated/api'
 
 interface ChatBubbleProps {
   message: MessageType
@@ -23,6 +26,8 @@ interface ChatBubbleProps {
 export default function ChatBubble({ message, prevMessage, actualUser, selectedChat }: ChatBubbleProps) {
   const [openMedia, setOpenMedia] = useState(false)
   const { isGroup, members } = selectedChat
+
+  const deleteMessage = useMutation(api.messages.deleteMessage)
 
   const isMember = members.includes(actualUser._id)
   const isMsgFromActualUser = message.sender._id === actualUser._id
@@ -56,13 +61,22 @@ export default function ChatBubble({ message, prevMessage, actualUser, selectedC
         {!isMsgFromActualUser && <ChatBubbleAvatar message={message} isMember={isMember} isGroup={isGroup} />}
 
         <section
-          className={`relative z-20 flex w-2/3 max-w-fit flex-col rounded-md p-2 shadow-md ${bgColor} ${isMsgFromActualUser && 'ml-auto'}`}
+          className={`group relative z-20 flex w-2/3 max-w-fit flex-col rounded-md p-2 shadow-md ${bgColor} ${isMsgFromActualUser && 'ml-auto'}`}
         >
           {isMsgFromActualUser ? <SelfMsgIndicator /> : <OtherMsgIndicator />}
 
           {renderMessageContent()}
 
           <MessageTime time={time} isMsgFromActualUser={isMsgFromActualUser} />
+
+          {isMsgFromActualUser && (
+            <button
+              onClick={() => deleteMessage({ messageId: message._id })}
+              className="absolute -right-2 -top-1 rounded-full bg-red-500/50 p-1 text-white opacity-0 transition-colors hover:bg-red-600 group-hover:opacity-100"
+            >
+              <Trash2 size={16} />
+            </button>
+          )}
         </section>
       </div>
     </>

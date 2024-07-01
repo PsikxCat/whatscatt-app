@@ -1,3 +1,4 @@
+import React from 'react'
 import { MessageType } from '@/types'
 
 interface TextMessageProps {
@@ -6,6 +7,15 @@ interface TextMessageProps {
 
 export default function TextMessage({ message }: TextMessageProps) {
   const isLink = /^(ftp|http|https):\/\/[^ "]+$/.test(message.content)
+
+  const formatMessage = (content: string) => {
+    return content.split('\n').map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        {index !== content.split('\n').length - 1 && <br />}
+      </React.Fragment>
+    ))
+  }
 
   return (
     <div className="flex">
@@ -21,7 +31,7 @@ export default function TextMessage({ message }: TextMessageProps) {
         </a>
       ) : (
         <p className="my-1 mr-2 text-sm font-light after:inline-block after:w-14 after:content-['']">
-          {message.content}
+          {formatMessage(message.content)}
         </p>
       )}
     </div>

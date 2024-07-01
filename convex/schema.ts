@@ -22,5 +22,6 @@ export default defineSchema({
     sender: v.union(v.id('users'), v.string()), // <--- string solo si se implementa el chatbot, cambiar a id('users') si no
     content: v.string(),
     messageType: v.union(v.literal('text'), v.literal('image'), v.literal('video')),
+    fileStorageId: v.optional(v.id('_storage')),
   }).index('by_chat', ['chat']),
 })

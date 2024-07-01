@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useMutation, useQuery } from 'convex/react'
 import { Laugh, Mic, Send } from 'lucide-react'
 import EmojiPicker, { Theme, EmojiStyle } from 'emoji-picker-react'
@@ -10,22 +10,35 @@ import { useComponentVisible } from '@/hooks'
 import { api } from '@cx/_generated/api'
 import { MediaDropdown } from '@/components'
 import { useToast } from '@/components/ui/use-toast'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
 
 export default function MessageInput() {
-  const { selectedChat } = useContext(GlobalContext)
   const [msgText, setMsgText] = useState<string>('')
+  const { selectedChat } = useContext(GlobalContext)
   const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const { toast } = useToast()
 
   const sendTextMessage = useMutation(api.messages.sendTextMessage)
   const actualUser = useQuery(api.users.getActualUser)
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  useEffect(() => {
+    ;(() => {
+      const textarea = textareaRef.current
+      if (textarea) {
+        textarea.style.height = '20px'
+        textarea.style.height = `${Math.min(textarea.scrollHeight, 150)}px`
+      }
+    })()
+  }, [msgText])
+
+  const handleSubmit = async (e?: React.FormEvent<HTMLFormElement>) => {
+    if (e) e.preventDefault()
 
     try {
+      if (!msgText.trim()) return
+
       await sendTextMessage({
         senderId: actualUser!._id,
         content: msgText,
@@ -40,6 +53,13 @@ export default function MessageInput() {
         title: 'Error al enviar el mensaje',
         description: 'Ocurrió un error al enviar el mensaje, por favor intenta de nuevo',
       })
+    }
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      handleSubmit()
     }
   }
 
@@ -67,15 +87,14 @@ export default function MessageInput() {
 
       <form className="flex w-full gap-3" onSubmit={handleSubmit}>
         {/* Input del mensaje */}
-        <div className="flex-1">
-          <Input
-            type="text"
-            placeholder="Escribe un mensaje..."
-            className="w-full rounded-lg bg-gray-tertiary py-2 text-sm shadow-sm focus-visible:ring-transparent"
-            value={msgText}
-            onChange={(e) => setMsgText(e.target.value)}
-          />
-        </div>
+        <Textarea
+          ref={textareaRef}
+          placeholder="Escribe un mensaje..."
+          className="w-full resize-none rounded-lg bg-gray-tertiary py-2 text-sm shadow-sm focus-visible:ring-transparent"
+          value={msgText}
+          onChange={(e) => setMsgText(e.target.value)}
+          onKeyDown={(e) => handleKeyDown(e)}
+        />
 
         {/* Botón de envío o mensaje de voz */}
         <div className="mr-4 flex items-center gap-3">
@@ -84,6 +103,7 @@ export default function MessageInput() {
               <Send />
             </Button>
           ) : (
+            // # TODO: Implementar funcionalidad de mensaje de voz
             <Button type="submit" size={'sm'} className="bg-transparent text-foreground hover:bg-transparent">
               <Mic />
             </Button>
