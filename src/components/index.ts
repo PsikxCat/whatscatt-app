@@ -11,6 +11,7 @@ export { default as MessageContainer } from './home/RightPanel/MessageContainer'
 export { default as GroupMembersDialog } from './home/RightPanel/GroupMembersDialog'
 export { default as MessageInput } from './home/RightPanel/MessageInput'
 export { default as DateIndicator } from './home/RightPanel/DateIndicator'
+export { default as AddMembersDialog } from './home/RightPanel/AddMembersDialog'
 
 export { default as ChatBubble } from './home/RightPanel/ChatBubble/ChatBubble'
 export { default as ChatBubbleAvatar } from './home/RightPanel/ChatBubble/ChatBubbleAvatar'

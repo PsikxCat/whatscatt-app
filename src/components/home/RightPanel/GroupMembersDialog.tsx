@@ -1,7 +1,7 @@
 'use client'
 
-import { useQuery } from 'convex/react'
-import { Crown } from 'lucide-react'
+import { useMutation, useQuery } from 'convex/react'
+import { LogOut, Crown } from 'lucide-react'
 
 import { Id } from '@cx/_generated/dataModel'
 import { api } from '@cx/_generated/api'
@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { AddMembersDialog } from '@/components'
 
 interface GroupMembersDialogProps {
   admin: string | null
@@ -22,6 +23,10 @@ interface GroupMembersDialogProps {
 
 export default function GroupMembersDialog({ admin, chatId }: GroupMembersDialogProps) {
   const chatMembers = useQuery(api.users.getGroupMembers, { chatId })
+  const actualUser = useQuery(api.users.getActualUser)
+  const throwOutUserFromChat = useMutation(api.chats.throwOutUserFromChat)
+
+  const handleKickUser = async (userId: Id<'users'>) => await throwOutUserFromChat({ chatId, userToThrowOutId: userId })
 
   return (
     <Dialog>
@@ -31,7 +36,11 @@ export default function GroupMembersDialog({ admin, chatId }: GroupMembersDialog
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="my-2">Miembros actuales</DialogTitle>
+          <DialogTitle className="my-2 mb-3 flex items-center justify-between">
+            <h3>Miembros actuales</h3>
+
+            <AddMembersDialog chatId={chatId} chatMembers={chatMembers!} />
+          </DialogTitle>
 
           <DialogDescription>
             <section className="flex flex-col gap-3">
@@ -48,12 +57,20 @@ export default function GroupMembersDialog({ admin, chatId }: GroupMembersDialog
                     </AvatarFallback>
                   </Avatar>
 
-                  {/* Nombre e insignia de admin */}
+                  {/* Nombre e insignia de admin o icono eliminar miembro */}
                   <div className="w-full">
                     <div className="flex items-center gap-2">
                       <h3 className="text-md font-medium">{member.name || member.email.split('@')[0]}</h3>
 
-                      {admin === member._id && <Crown size={16} className="text-yellow-400" />}
+                      {member._id === admin ? (
+                        <Crown size={16} className="text-yellow-400" />
+                      ) : admin === actualUser?._id ? (
+                        <LogOut
+                          width={18}
+                          className="cursor-pointer text-red-500/50 transition-colors hover:text-red-600"
+                          onClick={() => handleKickUser(member._id)}
+                        />
+                      ) : null}
                     </div>
                   </div>
                 </section>

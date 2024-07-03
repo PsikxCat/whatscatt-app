@@ -4,7 +4,7 @@ type SVGWithProps = SVGProps<SVGSVGElement>
 
 export function MessageSeenSvg(props: SVGWithProps) {
   return (
-    <svg width={16} height={11} fill="none" {...props}>
+    <svg width={15} height={10} fill="none" {...props}>
       <title>{'msg-dblcheck'}</title>
       <path
         fill="currentColor"

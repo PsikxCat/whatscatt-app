@@ -100,4 +100,89 @@ export const getUserChats = query({
   },
 })
 
+export const throwOutUserFromChat = mutation({
+  args: {
+    chatId: v.id('chats'),
+    userToThrowOutId: v.id('users'),
+  },
+  handler: async ({ auth, db }, { chatId, userToThrowOutId }) => {
+    const identity = await auth.getUserIdentity()
+    if (!identity) throw new ConvexError('No autorizado')
+
+    const chat = await db.get(chatId)
+    if (!chat) throw new ConvexError('Chat no encontrado')
+
+    const user = await db
+      .query('users')
+      .withIndex('by_tokenIdentifier', (q) => q.eq('tokenIdentifier', identity.tokenIdentifier))
+      .unique()
+
+    if (!user) throw new ConvexError('Usuario no encontrado')
+    if (!chat.members.includes(user._id)) throw new ConvexError('No autorizado')
+    if (chat.admin !== user._id) throw new ConvexError('No autorizado')
+
+    await db.patch(chatId, {
+      members: chat.members.filter((memberId) => memberId !== userToThrowOutId),
+    })
+  },
+})
+
+export const addUsersToChat = mutation({
+  args: {
+    chatId: v.id('chats'),
+    newMembers: v.array(v.id('users')),
+  },
+  handler: async ({ auth, db }, { chatId, newMembers }) => {
+    const identity = await auth.getUserIdentity()
+    if (!identity) throw new ConvexError('No autorizado')
+
+    const chat = await db.get(chatId)
+    if (!chat) throw new ConvexError('Chat no encontrado')
+
+    const user = await db
+      .query('users')
+      .withIndex('by_tokenIdentifier', (q) => q.eq('tokenIdentifier', identity.tokenIdentifier))
+      .unique()
+
+    if (!user) throw new ConvexError('Usuario no encontrado')
+    if (!chat.members.includes(user._id)) throw new ConvexError('No autorizado')
+    if (chat.admin !== user._id) throw new ConvexError('No autorizado')
+
+    await db.patch(chatId, {
+      members: [...chat.members, ...newMembers],
+    })
+  },
+})
+
+export const deleteChat = mutation({
+  args: {
+    chatId: v.id('chats'),
+  },
+  handler: async ({ auth, db }, { chatId }) => {
+    const identity = await auth.getUserIdentity()
+    if (!identity) throw new ConvexError('No autorizado')
+
+    const chat = await db.get(chatId)
+    if (!chat) throw new ConvexError('Chat no encontrado')
+
+    const user = await db
+      .query('users')
+      .withIndex('by_tokenIdentifier', (q) => q.eq('tokenIdentifier', identity.tokenIdentifier))
+      .unique()
+
+    if (!user) throw new ConvexError('Usuario no encontrado')
+    if (!chat.members.includes(user._id)) throw new ConvexError('No autorizado')
+    if (chat.admin !== user._id) throw new ConvexError('No autorizado')
+
+    await db.delete(chatId)
+
+    const messages = await db
+      .query('messages')
+      .withIndex('by_chat', (q) => q.eq('chat', chatId))
+      .collect()
+
+    await Promise.all(messages.map((message) => db.delete(message._id)))
+  },
+})
+
 export const generateUploadUrl = mutation(async ({ storage }) => await storage.generateUploadUrl())

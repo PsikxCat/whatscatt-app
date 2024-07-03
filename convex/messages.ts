@@ -145,7 +145,7 @@ export const deleteMessage = mutation({
 
     if (!user) throw new ConvexError('Usuario no encontrado')
 
-    if (identity.tokenIdentifier !== user.tokenIdentifier) throw new ConvexError('No autorizado')
+    // if (identity.tokenIdentifier !== user.tokenIdentifier) throw new ConvexError('No autorizado')
 
     if (message.messageType === 'image' || message.messageType === 'video') {
       const storageId = message.fileStorageId
