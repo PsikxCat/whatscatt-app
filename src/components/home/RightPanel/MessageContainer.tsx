@@ -1,7 +1,7 @@
 'use client'
 
 import { useContext, useEffect, useRef } from 'react'
-import { useQuery } from 'convex/react'
+import { useConvexAuth, useQuery } from 'convex/react'
 import { api } from '@cx/_generated/api'
 
 import { GlobalContext } from '@/context/GlobalContext'
@@ -11,7 +11,11 @@ export default function MessageContainer() {
   const { selectedChat } = useContext(GlobalContext)
   const chatEndRef = useRef<HTMLDivElement>(null)
 
-  const messages = useQuery(api.messages.getMessages, { chatId: selectedChat!._id })
+  const { isAuthenticated } = useConvexAuth()
+  const messages = useQuery(
+    api.messages.getMessages,
+    isAuthenticated && selectedChat?._id ? { chatId: selectedChat._id } : 'skip',
+  )
   const actualUser = useQuery(api.users.getActualUser)
 
   useEffect(() => chatEndRef.current!.scrollIntoView({ behavior: 'smooth' }), [messages])
